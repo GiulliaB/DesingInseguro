@@ -1,5 +1,5 @@
 // Modelo seguro (com validação e hash de senha)
-export default class User {
+export default class UserSeguro {
     constructor(id, name, email, passwordHash) {
         this.id = id;
         this.name = name;

@@ -1,12 +1,12 @@
-import User from './ModelUsuario.js';
-import bcrypt from 'bcrypt';
+import UserSeguro from './ModelUsuarioSeguro.js';
+import bcrypt from './bcryptSeguro.js';
 
 let users = [];
 let nextId = 1;
 
 export async function createUser(name, email, password) {
     const passwordHash = await bcrypt.hash(password, 10);
-    const user = new User(nextId++, name, email, passwordHash);
+    const user = new UserSeguro(nextId++, name, email, passwordHash);
     users.push(user);
     return user;
 }

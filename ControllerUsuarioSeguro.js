@@ -1,10 +1,9 @@
 import express from 'express';
 import { body, validationResult } from 'express-validator';
-import { createUser, getUsers, getUserById, updateUser, deleteUser } from './ServiceUsuario.js';
+import { createUser, getUsers, getUserById, updateUser, deleteUser } from './ServiceUsuarioSeguro.js';
 
 const router = express.Router();
 
-// Criar usuário (SEGURO: validação, senha protegida)
 router.post('/',
     body('name').isString().notEmpty(),
     body('email').isEmail(),
@@ -20,20 +19,17 @@ router.post('/',
     }
 );
 
-// Listar usuários
 router.get('/', (req, res) => {
     const users = getUsers().map(u => ({ id: u.id, name: u.name, email: u.email }));
     res.json(users);
 });
 
-// Buscar usuário por ID
 router.get('/:id', (req, res) => {
     const user = getUserById(req.params.id);
     if (!user) return res.status(404).json({ error: 'Usuario não encontrado.' });
     res.json({ id: user.id, name: user.name, email: user.email });
 });
 
-// Atualizar usuário (SEGURO: validação)
 router.put('/:id',
     body('name').optional().isString().notEmpty(),
     body('email').optional().isEmail(),
@@ -50,7 +46,6 @@ router.put('/:id',
     }
 );
 
-// Deletar usuário
 router.delete('/:id', (req, res) => {
     deleteUser(req.params.id);
     res.status(204).send();
